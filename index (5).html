@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Niku | Web Engineering Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #1a6ce6;
+      --blue-dark: #1257c4;
+      --blue-soft: #e9f1ff;
+      --ink: #0f172a;
+      --muted: #5b6478;
+      --line: #e4e8f1;
+      --bg: #f7f8fc;
+      --navy: #262d3d;
+      --white: #ffffff;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font-family: inherit; }
+
+    /* ---------- Header ---------- */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 48px;
+      border-bottom: 1px solid var(--line);
+      background: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+    .brand-mark {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: var(--blue); color: #fff;
+      display: grid; place-items: center; font-size: 15px; font-weight: 700;
+    }
+    .nav-links { display: flex; gap: 32px; font-size: 14px; color: var(--muted); }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--blue); font-weight: 500; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--blue-soft); color: var(--blue);
+      display: grid; place-items: center; font-size: 13px; font-weight: 600;
+    }
+
+    /* ---------- Buttons & badges ---------- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px; border-radius: 999px; border: none;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-soft { background: var(--blue-soft); color: var(--blue); }
+    .btn-soft:hover { background: #dbe8ff; }
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase;
+      padding: 6px 12px; border-radius: 999px;
+      background: var(--blue-soft); color: var(--blue);
+    }
+    .badge::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--blue);
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 64px 48px 48px;
+    }
+    .hero h1 {
+      font-size: 60px; line-height: 1.03; letter-spacing: -1.8px; font-weight: 700;
+      margin: 22px 0 18px;
+    }
+    .hero h1 span { color: var(--blue); }
+    .hero p.lead { font-size: 16px; line-height: 1.6; color: var(--muted); max-width: 440px; margin: 0 0 28px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .checks { display: flex; gap: 22px; margin-top: 24px; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+    .checks span { display: inline-flex; align-items: center; gap: 6px; }
+    .check {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--blue-soft); color: var(--blue);
+      display: grid; place-items: center; font-size: 10px;
+    }
+
+    .hero-visual {
+      position: relative;
+      height: 360px;
+      border-radius: 18px;
+      background: linear-gradient(160deg, #eef3fb 0%, #dce7f7 100%);
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .laptop {
+      position: absolute; left: 12%; top: 20%;
+      width: 62%; height: 52%;
+      background: #1f2633; border-radius: 12px 12px 4px 4px;
+      padding: 10px; box-shadow: 0 18px 40px rgba(15,23,42,.18);
+    }
+    .laptop-screen {
+      width: 100%; height: 100%; border-radius: 6px;
+      background: linear-gradient(135deg, #ffffff 0%, #e7efff 100%);
+      position: relative; overflow: hidden;
+    }
+    .laptop-screen::before {
+      content: "Crafting Digital\A Experiences"; white-space: pre;
+      position: absolute; left: 10px; top: 12px; font-size: 11px; font-weight: 700; color: var(--ink);
+    }
+    .laptop-screen::after {
+      content: ""; position: absolute; left: 10px; right: 10px; bottom: 10px; height: 36%;
+      background: var(--blue); border-radius: 6px; opacity: .85;
+    }
+    .laptop-base {
+      position: absolute; left: 8%; top: calc(20% + 52% - 2px);
+      width: 76%; height: 8px; background: #c9d1de; border-radius: 0 0 10px 10px;
+    }
+    .phone {
+      position: absolute; right: 12%; bottom: 14%;
+      width: 88px; height: 160px; background: #151a24;
+      border-radius: 18px; padding: 6px; box-shadow: 0 14px 30px rgba(15,23,42,.2);
+    }
+    .phone-screen { width: 100%; height: 100%; border-radius: 12px; background: #f2f6ff; }
+    .float-card {
+      position: absolute; left: 16px; bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--white); border-radius: 12px; padding: 10px 14px;
+      box-shadow: 0 10px 26px rgba(15,23,42,.12); font-size: 12px;
+    }
+    .float-card .icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: var(--blue-soft); color: var(--blue);
+      display: grid; place-items: center; font-size: 13px;
+    }
+    .float-card strong { display: block; font-size: 13px; }
+    .float-card small { color: var(--muted); }
+
+    /* ---------- Services ---------- */
+    .services {
+      background: var(--bg);
+      padding: 64px 48px 48px;
+      position: relative;
+    }
+    .section-head {
+      display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
+      margin-bottom: 32px;
+    }
+    .section-head h2 { font-size: 36px; letter-spacing: -1px; margin: 16px 0 12px; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 560px; }
+    .arrows { display: flex; gap: 10px; }
+    .arrow-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--line); background: var(--white); color: var(--ink);
+      display: grid; place-items: center; cursor: pointer;
+    }
+    .arrow-btn.blue { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .card {
+      background: var(--white); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 26px;
+      display: flex; flex-direction: column;
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      border: 1px solid var(--line); color: var(--blue);
+      display: grid; place-items: center;
+    }
+    .card-num {
+      font-size: 11px; color: var(--muted);
+      border: 1px solid var(--line); border-radius: 6px; padding: 3px 7px;
+    }
+    .card h3 { font-size: 20px; margin: 22px 0 10px; letter-spacing: -.3px; }
+    .card p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+    .card-foot {
+      margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; color: var(--muted); background: var(--bg);
+      border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px;
+    }
+    .go {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--blue); color: #fff; border: none;
+      display: grid; place-items: center; cursor: pointer; flex-shrink: 0;
+    }
+
+    .pager {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 22px; font-size: 12px; color: var(--muted);
+    }
+    .dots { display: flex; gap: 6px; align-items: center; }
+    .dots i { width: 6px; height: 6px; border-radius: 50%; background: #c7cdd9; display: block; }
+    .dots i.on { width: 18px; border-radius: 4px; background: var(--blue); }
+
+    /* Floating pill nav shown over the services section in the design */
+    .float-nav {
+      position: absolute; left: 50%; top: 300px; transform: translateX(-50%);
+      display: flex; gap: 4px; align-items: center;
+      background: #1e2430; color: #c5ccda; border-radius: 999px; padding: 6px;
+      box-shadow: 0 12px 30px rgba(15,23,42,.25); font-size: 13px; z-index: 5;
+      white-space: nowrap;
+    }
+    .float-nav a { padding: 7px 14px; border-radius: 999px; }
+    .float-nav a.on { background: var(--blue); color: #fff; }
+
+    /* ---------- How It Works ---------- */
+    .method { padding: 48px 40px 0; }
+    .method-box {
+      background: var(--navy); border-radius: 22px; padding: 48px;
+      color: #fff; position: relative; overflow: hidden;
+    }
+    .method-box .badge { background: rgba(255,255,255,.08); color: #cfd6e4; }
+    .method-box .badge::before { background: #cfd6e4; }
+    .method-box h2 { font-size: 40px; letter-spacing: -1px; margin: 18px 0 10px; }
+    .method-box > p { color: #aab3c5; font-size: 15px; margin: 0 0 32px; max-width: 520px; line-height: 1.6; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .step {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius); padding: 24px;
+    }
+    .step-top { display: flex; justify-content: space-between; align-items: center; }
+    .step-num { font-size: 13px; color: #aab3c5; font-weight: 500; }
+    .step-icon {
+      width: 28px; height: 28px; border-radius: 8px; background: var(--blue);
+      display: grid; place-items: center; color: #fff;
+    }
+    .step h3 { font-size: 19px; margin: 26px 0 10px; }
+    .step p { margin: 0; font-size: 14px; line-height: 1.6; color: #aab3c5; }
+    .cta-bar {
+      margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius); padding: 18px 22px;
+    }
+    .cta-bar strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    .cta-bar small { color: #aab3c5; font-size: 12px; }
+
+    /* ---------- Registration (form) ---------- */
+    .registration { padding: 72px 48px 56px; }
+    .reg-wrap {
+      max-width: 520px; margin: 0 auto; text-align: center;
+    }
+    .reg-wrap h2 { font-size: 36px; letter-spacing: -1px; margin: 16px 0 10px; }
+    .reg-wrap > p { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 0 0 32px; }
+    .reg-card {
+      background: var(--white); border: 1px solid var(--line); border-radius: 18px;
+      padding: 28px; text-align: left; box-shadow: 0 10px 30px rgba(15,23,42,.05);
+    }
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 7px; }
+    .field input {
+      width: 100%; padding: 12px 14px; font-size: 14px;
+      border: 1px solid var(--line); border-radius: 10px; background: var(--bg);
+      color: var(--ink); outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    .field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,108,230,.15); background: #fff; }
+    .reg-card .btn-primary { width: 100%; justify-content: center; padding: 13px 20px; font-size: 15px; }
+    .status {
+      margin-top: 16px; font-size: 14px; text-align: center; min-height: 20px;
+    }
+    .status.ok { color: #13843c; }
+    .status.err { color: #c52a2a; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      border-top: 1px solid var(--line); padding: 32px 48px 24px;
+      background: var(--white);
+    }
+    .foot-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+    .foot-brand strong { font-size: 18px; display: block; margin-bottom: 6px; }
+    .foot-brand span { font-size: 13px; color: var(--muted); }
+    .foot-links { display: flex; gap: 22px; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+    .foot-links a:hover { color: var(--ink); }
+    .foot-bottom {
+      display: flex; justify-content: space-between; margin-top: 28px; padding-top: 18px;
+      border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 10px;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px) {
+      .nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 40px 20px 32px; gap: 32px; }
+      .hero h1 { font-size: 44px; letter-spacing: -1px; }
+      .hero-visual { height: 300px; }
+      .services { padding: 48px 20px 40px; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .section-head h2 { font-size: 30px; }
+      .cards { grid-template-columns: 1fr; }
+      .float-nav { display: none; }
+      .method { padding: 32px 16px 0; }
+      .method-box { padding: 32px 22px; }
+      .method-box h2 { font-size: 30px; }
+      .steps { grid-template-columns: 1fr; }
+      .cta-bar { flex-direction: column; align-items: flex-start; }
+      .registration { padding: 48px 20px 40px; }
+      .reg-wrap h2 { font-size: 30px; }
+      footer { padding: 28px 20px 20px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 36px; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .nav-right .btn { padding: 9px 14px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body id="top">
+
+  <!-- Header -->
+  <header class="nav">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <span>Niku</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#top">Home</a>
+      <a href="#services" class="active">Services</a>
+      <a href="#registration">Registration</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#registration" class="btn btn-primary">Get Started &rarr;</a>
+      <div class="avatar">A</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <span class="badge">Bespoke Web Engineering</span>
+        <h1>Your Vision.<br /><span>Our Digital Craft.</span></h1>
+        <p class="lead">From your first idea to your online presence, let's create a website that works for you.</p>
+        <div class="hero-actions">
+          <a href="#registration" class="btn btn-primary">Start Your Project &rarr;</a>
+          <a href="#services" class="btn btn-soft">Explore Services &#8964;</a>
+        </div>
+        <div class="checks">
+          <span><i class="check">&#10003;</i> Ultra Fast Delivery</span>
+          <span><i class="check">&#10003;</i> 100% Responsive</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="laptop">
+          <div class="laptop-screen"></div>
+        </div>
+        <div class="laptop-base"></div>
+        <div class="phone"><div class="phone-screen"></div></div>
+        <div class="float-card">
+          <div class="icon">&#9635;</div>
+          <div>
+            <strong>Cross-Device Ready</strong>
+            <small>Flawless everywhere</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services">
+      <div class="section-head">
+        <div>
+          <span class="badge">Engineered for Impact</span>
+          <h2>What Can We Build for You?</h2>
+          <p>Every business has a signature objective. Every business has a signature objective. Our products are engineered to amplify your reach, elevate your brand, and drive sustained conversions.</p>
+        </div>
+        <div class="arrows">
+          <button class="arrow-btn" aria-label="Previous">&#8249;</button>
+          <button class="arrow-btn blue" aria-label="Next">&#8250;</button>
+        </div>
+      </div>
+
+      <div class="float-nav" aria-hidden="true">
+        <a href="#top">&#8962; Home</a>
+        <a href="#services" class="on">&#9679; Services</a>
+        <a href="#registration">Registration &rarr;</a>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card-top">
+            <div class="card-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+            </div>
+            <span class="card-num">02</span>
+          </div>
+          <h3>Portfolio Websites</h3>
+          <p>Showcase your skills, projects, and achievements. Bespoke visual narratives crafted for creatives, architects, consultants, and leaders who demand unforgettable prestige.</p>
+          <div class="card-foot">
+            <div class="tags">
+              <span class="tag">Interactive Media</span>
+              <span class="tag">Case Studies</span>
+            </div>
+            <button class="go" aria-label="Open Portfolio Websites">&rarr;</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div class="card-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.3-2 4.5-2 4.5s3.2-.5 4.5-2M14 3s5 0 7 2 2 7 2 7l-6 6-5-5 2-10Z"/></svg>
+            </div>
+            <span class="card-num">03</span>
+          </div>
+          <h3>Startup Websites</h3>
+          <p>Introduce your startup idea to the world. Fast-moving launch decks, SaaS product interfaces, and waitlist funnels built to capture investors and early adopters at lightning speed.</p>
+          <div class="card-foot">
+            <div class="tags">
+              <span class="tag">Early Traction</span>
+              <span class="tag">Analytics Sync</span>
+            </div>
+            <button class="go" aria-label="Open Startup Websites">&rarr;</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="pager">
+        <div class="dots"><i></i><i class="on"></i><i></i></div>
+        <div><strong style="color:var(--ink)">02</strong> | 04</div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="method">
+      <div class="method-box">
+        <span class="badge">Disciplined Methodology</span>
+        <h2>How It Works</h2>
+        <p>Our three-phase engineering flow transforms conceptual ambition into production-ready web software without guesswork.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-top">
+              <span class="step-num">01</span>
+              <span class="step-icon">&#9906;</span>
+            </div>
+            <h3>Share Your Idea</h3>
+            <p>Tell us about your vision, goals, and target audience through our simple onboarding.</p>
+          </div>
+          <div class="step">
+            <div class="step-top">
+              <span class="step-num">02</span>
+              <span class="step-icon">&#10070;</span>
+            </div>
+            <h3>Design &amp; Develop</h3>
+            <p>We craft high-fidelity designs and build clean, responsive code tailored to your needs.</p>
+          </div>
+          <div class="step">
+            <div class="step-top">
+              <span class="step-num">03</span>
+              <span class="step-icon">&#9650;</span>
+            </div>
+            <h3>Launch &amp; Grow</h3>
+            <p>We deploy your site to production, optimize performance, and ensure you're ready for success.</p>
+          </div>
+        </div>
+
+        <div class="cta-bar">
+          <div>
+            <strong>Ready to start step 01?</strong>
+            <small>Complete our guided 5-minute intake and get an engineering scope in 24 hours.</small>
+          </div>
+          <a href="#registration" class="btn btn-primary">Get Started &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registration form: only name, email, phone -->
+    <section class="registration" id="registration">
+      <div class="reg-wrap">
+        <span class="badge">Registration</span>
+        <h2>Start Your Registration</h2>
+        <p>Share your details and our team will reach out within 24 hours to begin your project.</p>
+
+        <form class="reg-card" id="regForm" novalidate>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Doe" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 555 000 0000" autocomplete="tel" required />
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitBtn">Get Started &rarr;</button>
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="foot-top">
+      <div class="foot-brand">
+        <strong>Niku</strong>
+        <span>Your Idea. Our Code. Your Website.</span>
+      </div>
+      <nav class="foot-links">
+        <a href="#top">Home</a>
+        <a href="#services">Services</a>
+        <a href="#registration">Registration</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2025 Niku Web Agency. All rights reserved.</span>
+      <span>Crafted with Precision.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Apps Script web app URL (deployed as Web app, access: Anyone)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwSF8UdpXQYWZ5FiucTGXWoIDiFrSW5KC8VvghXJcjRf4NNk3R73eH2MAUc9nn0a5kCGQ/exec";
+
+    const form = document.getElementById("regForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const statusEl = document.getElementById("status");
+
+    function setStatus(message, type) {
+      statusEl.textContent = message;
+      statusEl.className = "status " + (type || "");
+    }
+
+    function showSuccess() {
+      setStatus("Thank you! Your details have been received.", "ok");
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = "Get Started &rarr;";
+    }
+
+    function showError() {
+      setStatus("Something went wrong. Please try again.", "err");
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = "Get Started &rarr;";
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      if (!name || !email || !phone) {
+        setStatus("Please fill in name, email and phone.", "err");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+      setStatus("", "");
+
+      const url = SCRIPT_URL + "?" + new URLSearchParams({ name, email, phone });
+
+      fetch(url, { method: "GET", mode: "no-cors" })
+        .then(() => showSuccess())
+        .catch(() => showError());
+    });
+  </script>
+</body>
+</html>
